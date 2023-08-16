@@ -1,6 +1,16 @@
 const grid = document.querySelector('.grid');
 const spanPlayer = document.querySelector('.player');
 const timer = document.querySelector('.timer');
+const menu = document.querySelector('.menu-screen')
+const button = document.querySelector('.btn-play')
+const bestScore = document.querySelector('.best-score-value')
+const lastScore = document.querySelector('.best-score-value2')
+const score = document.querySelector('.timer')
+
+
+let firstCard = '';
+let secondCard = '';
+
 
 const characters = [
   'beth',
@@ -13,6 +23,8 @@ const characters = [
   'summer',
   'meeseeks',
   'scroopy',
+  'space-beth',
+  'poopybuthole',
 ];
 
 const createElement = (tag, className) => {
@@ -21,16 +33,14 @@ const createElement = (tag, className) => {
   return element;
 }
 
-let firstCard = '';
-let secondCard = '';
-
 const checkEndGame = () => {
-  const disabledCards = document.querySelectorAll('.disabled-card');
+  const disabledCards = document.querySelectorAll('.disabled-card')
 
-  if (disabledCards.length === 20) {
-    setTimeout( () => {
-      clearInterval(this.loop);
-      alert(`Parabéns ${spanPlayer.innerHTML}!! Seu tempo foi : ${timer.innerHTML} `);
+  if (disabledCards.length === 4) {
+    setTimeout(() => {
+      clearInterval(this.loop)
+      updateBestScore(parseInt(timer.innerText))
+      menu.style.display = "flex"
     }, 500)
   }
 }
@@ -114,9 +124,20 @@ const loadGame = () => {
 
 const startTimer = () => {
   this.loop = setInterval(() => {
-    const currentTimer = +timer.innerHTML;
+    const currentTimer = +timer.innerHTML
     timer.innerHTML = currentTimer + 1
   }, 1000)
+}
+
+const updateBestScore = (score) => {
+  const currentBestScore = localStorage.getItem("bestScore")
+  
+  if (currentBestScore === !null || score < parseInt(currentBestScore)) {
+    localStorage.setItem("bestScore", score)
+    bestScore.innerText = score
+  }
+
+  lastScore.innerText = timer.innerText
 }
 
 window.onload = () => {
@@ -124,4 +145,17 @@ window.onload = () => {
   startTimer();
   loadGame();
 }
+
+const resetGame = () => {
+  clearInterval(this.loop)
+  firstCard = ''
+  secondCard = ''
+  grid.innerHTML = ''
+  loadGame();
+  timer.innerHTML = '0'
+  startTimer();
+  menu.style.display = 'none'
+};
+
+button.addEventListener('click', resetGame);
 
