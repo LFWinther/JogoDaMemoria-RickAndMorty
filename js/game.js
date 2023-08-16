@@ -36,7 +36,7 @@ const createElement = (tag, className) => {
 const checkEndGame = () => {
   const disabledCards = document.querySelectorAll('.disabled-card')
 
-  if (disabledCards.length === 4) {
+  if (disabledCards.length === 24) {
     setTimeout(() => {
       clearInterval(this.loop)
       updateBestScore(parseInt(timer.innerText))
