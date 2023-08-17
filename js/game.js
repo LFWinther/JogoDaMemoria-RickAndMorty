@@ -130,9 +130,11 @@ const startTimer = () => {
 }
 
 const updateBestScore = (score) => {
-  const currentBestScore = localStorage.getItem("bestScore")
   
-  if (currentBestScore === !null || score < parseInt(currentBestScore)) {
+  const currentBestScore = localStorage.getItem("bestScore")
+  console.log('print 1: ',currentBestScore)
+  if (+currentBestScore === 0 || score < parseInt(currentBestScore)) {
+    console.log('print 2: ',currentBestScore)
     localStorage.setItem("bestScore", score)
     bestScore.innerText = score
   }
